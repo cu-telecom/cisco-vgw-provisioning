@@ -1,0 +1,16 @@
+roles:
+  - name: cisco-vgw-bootstrap
+    src: ssh://git@github.com/cu-telecom/ansible-cisco-vgw-bootstrap.git
+    version: v1.1
+    scm: git
+
+  - name: cisco-vgw-provision
+    src: ssh://git@github.com/cu-telecom/ansible-cisco-vgw-provision.git
+    version: v0.02
+    scm: git
+
+  # Requires passlib i.e pip install passlib
+  - name: ansible-filter-cisco-hash
+    src: ssh://git@github.com/mjuenema/ansible-filter-cisco-hash.git
+    version: master
+    scm: git

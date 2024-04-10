@@ -1,0 +1,12 @@
+---
+
+# Resets and bootstraps a Cisco Voice Gateway via telnet to get into to a state 
+# where ansible can use the cisco.ios collection to do the bulk of the provisioning
+
+- hosts: cisco
+  ignore_unreachable: true
+  gather_facts: no
+  connection: network_cli
+  roles:
+    - ansible-filter-cisco-hash
+    - cisco-vgw-bootstrap

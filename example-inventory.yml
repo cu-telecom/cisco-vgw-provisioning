@@ -1,0 +1,143 @@
+---
+
+all:
+  vars:
+    ansible_ssh_extra_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+    ansible_host_key_checking: false
+  children:
+
+    cisco:
+      children:
+        funnyel:
+          hosts:
+            vgw-100.funny.tel:
+              gwid: '100'
+              mac: 0011.1418.ffff
+              serial: AAAA1111
+              type: VG202
+              ip_address: 10.63.54.50
+              ansible_host: 10.63.54.50
+              netmask: 255.255.255.0
+              num_range: 903100-903101
+              sip_username: '100'
+              sip_password: SECRETPASSWORD
+            vgw-101.funny.tel:
+              gwid: '101'
+              mac: 0011.0b0a.ffff
+              serial: AAAA2222
+              type: VG202
+              ip_address: 10.63.54.51
+              ansible_host: 10.63.54.51
+              netmask: 255.255.255.0
+              num_range: 903102-903103
+              sip_username: '101'
+              sip_password: SECRETPASSWORD
+          vars:
+            ansible_network_os: ios
+            ansible_user: admin
+            ansible_password: SECRETPASSWORD
+            ansible_connection: network_cli
+            bridge_ethernet: true # N.B Changing this one provisioned is not supported
+            trombone: true
+            snmp_community: readonly
+            default_gateway: 10.63.54.1
+            sip_trusted:
+              - 10.63.54.0 255.255.255.0
+            sip_ua:
+              sip_server: sip.funny.tel
+              realm: sip.funny.tel
+              registrar: sip.funny.tel
+              register_expires: 60
+              additional_config:
+                - retry invite 3
+                - retry response 3
+                - retry bye 3
+                - retry cancel 3
+                - timers trying 1000            
+                - connection-reuse via-port
+            default_dialpeer_conf:
+              - corlist incoming trombone-inbound
+              - corlist outgoing trombone-outbound
+              - huntstop
+              - preference 1
+              - session protocol sipv2
+              - session target sip-server
+              - voice-class codec 1
+              - dtmf-relay rtp-nte
+              - fax protocol t38 version 0 ls-redundancy 0 hs-redundancy 0 fallback pass-through g711alaw
+              - no vad
+            banner: >2
+                ______                    _______   _ 
+               |  ____|                  |__   __| | |
+               | |__ _   _ _ __  _ __  _   _| | ___| |
+               |  __| | | | '_ \| '_ \| | | | |/ _ \ |
+               | |  | |_| | | | | | | | |_| | |  __/ |
+               |_|   \__,_|_| |_|_| |_|\__, |_|\___|_|
+                                       __/ |         
+                                      |___/  
+            dial_peers:
+              - destination_pattern: '999'
+                tag: 1
+                additional_config:
+                  - session protocol sipv2
+                  - session target sip-server
+                  - voice-class codec 1
+                  - no voice-class sip registration passthrough
+                  - dtmf-relay rtp-nte
+                  - fax protocol t38 version 0 ls-redundancy 0 hs-redundancy 0 fallback pass-through g711alaw
+                  - no vad
+              - destination_pattern: '911'
+                tag: 2
+                additional_config:
+                  - session protocol sipv2
+                  - session target sip-server
+                  - voice-class codec 1
+                  - no voice-class sip registration passthrough
+                  - dtmf-relay rtp-nte
+                  - fax protocol t38 version 0 ls-redundancy 0 hs-redundancy 0 fallback pass-through g711alaw
+                  - no vad
+              - incoming_called_number: '*9T'
+                tag: 3
+                additional_config:
+                  - translation-profile incoming strip_prefix
+                  - voice-class codec 1
+            bootstrap_user: admin
+            bootstrap_password: bootstrap
+            ddns_enabled: true
+            ddns_url_scheme: http://
+            ddns_username: funnytel
+            ddns_password: SECRETPASSWORD
+            ddns_url: 10.63.54.1:8080
+            ddns_tld: funnytel.dns.c29.uk
+            ntp_server: 10.63.54.1
+            name_servers:
+              - 10.63.54.1
+            basic_acl:
+              - grant: permit 
+                sequence: 10
+                source:
+                  host: 8.8.8.8 # Google DNS
+              - grant: permit
+                sequence: 20
+                source:
+                  address: 10.0.130.0
+                  wildcard_bits: 0.0.0.255
+              - grant: permit
+                sequence: 30
+                source:
+                  address: 10.244.0.0
+                  wildcard_bits: 0.0.255.255
+              - grant: permit
+                sequence: 40
+                source:
+                  address: 10.63.54.0
+                  wildcard_bits: 0.0.0.255
+              - grant: deny
+                sequence: 50
+                source:
+                  any: true
+            translations:
+              strip_star:
+                - "rule 1 /\\*.\\(.*$\\)/ /\\1/"
+              prefix_star9:
+                - "rule 1 /^/ /*9/"

@@ -1,0 +1,9 @@
+---
+
+- hosts: cisco
+  ignore_unreachable: true
+  gather_facts: no
+  connection: network_cli
+  roles:
+    - ansible-filter-cisco-hash
+    - cisco-vgw-provision
