@@ -1,12 +1,12 @@
 roles:
   - name: cisco-vgw-bootstrap
     src: ssh://git@github.com/cu-telecom/ansible-cisco-vgw-bootstrap.git
-    version: v1.1
+    version: v1.2
     scm: git
 
   - name: cisco-vgw-provision
     src: ssh://git@github.com/cu-telecom/ansible-cisco-vgw-provision.git
-    version: v0.02
+    version: v0.03
     scm: git
 
   # Requires passlib i.e pip install passlib
