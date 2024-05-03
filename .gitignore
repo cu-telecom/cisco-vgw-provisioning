@@ -91,3 +91,5 @@ host_vars/
 ##########
 # Add any additional files/folders you want to ignore
 # Example: secret_data/
+inventory/
+
