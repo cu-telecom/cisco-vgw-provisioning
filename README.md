@@ -10,10 +10,10 @@ It is aimed at people that want to setup a [CuTEL](https://cutel.net/) style tel
 - Configure Login authentication, VTYs, banners etc
 - Configure FXS Ports, Dial Peers, SIP-UA, translation rule and other voice settings
 - Force tromboning calls through the SIP server
--  Configure DNS, NTP, SNMP and Dynamic DNS
+- Configure DNS, NTP, SNMP and Dynamic DNS
 - Bridge the two  ethernet interfaces to enable switching / passthrough
 - Configure Network Interfaces including static or DHCP IP addresses
--  Add a basic ACL to the primary ethernet interface
+- Add a basic ACL to the primary ethernet interface
 
 ## Usage
 
