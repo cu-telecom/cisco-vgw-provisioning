@@ -17,7 +17,14 @@ It is aimed at people that want to setup a [CuTEL](https://cutel.net/) style tel
 
 ## Usage
 
-See the Wiki
+Install the requirments  
+
+`ansible-galaxy role install -r requirements.yml -f`
+
+Run ansible  
+
+`ansible-playbook -i inventory/inventory.yml -l vgw-110.cutel.dns.c26.uk,vgw-111.cutel.dns.c26.uk provision.yml`
+
 
 ## Disclaimers
 

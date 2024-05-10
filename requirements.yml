@@ -6,7 +6,7 @@ roles:
 
   - name: cisco-vgw-provision
     src: ssh://git@github.com/cu-telecom/ansible-cisco-vgw-provision.git
-    version: v0.03
+    version: v0.04
     scm: git
 
   # Requires passlib i.e pip install passlib
